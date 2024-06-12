@@ -11,16 +11,15 @@ import jakarta.ejb.EJB;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
- * @author Fernando
+ * @author Carlos
  */
 @Named("cMateria")
 @ViewScoped
-public class MateriaBean implements Serializable{
+public class MateriaBean implements Serializable {
 
     // Acceso a datos
     @EJB(beanName = "MateriaService")
@@ -55,7 +54,6 @@ public class MateriaBean implements Serializable{
 
     public void refresh() {
         this.materiasList = this.daoMateria.findAll();
-        System.out.println("LLEGOO");
     }
 
     public void guardarMateria() {
@@ -75,6 +73,10 @@ public class MateriaBean implements Serializable{
     public void eliminarMateria(Materia materia) {
         this.daoMateria.remove(materia);
         this.refresh();
+    }
+
+    public String irMateria() {
+        return "/views/dt_asignaturas/dt_asignaturas.xhtml";
     }
 
 }

@@ -4,13 +4,16 @@
  */
 package com.ues.parcial.controller;
 
+import com.ues.parcial.entity.Alumno;
 import com.ues.parcial.service.InscripcionDataService;
 import com.ues.parcial.entity.Inscripcion;
+import com.ues.parcial.entity.Materia;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,7 +22,7 @@ import java.util.List;
  */
 @Named("cInscripcion")
 @ViewScoped
-public class InscripcionBean implements Serializable{
+public class InscripcionBean implements Serializable {
 
     // Acceso a datos
     @EJB(beanName = "InscripcionService")
@@ -29,15 +32,8 @@ public class InscripcionBean implements Serializable{
     private List<Inscripcion> inscripcionesList;
     // Entidades
     private Inscripcion inscripcion;
-
-    public List<Inscripcion> getInscripcionsList() {
-        this.inscripcionesList = this.daoInscripcion.findAll();
-        return inscripcionesList;
-    }
-
-    public void setInscripcionsList(List<Inscripcion> inscripcionesList) {
-        this.inscripcionesList = inscripcionesList;
-    }
+    private Alumno alumno;
+    private Materia materia;
 
     public Inscripcion getInscripcion() {
         return inscripcion;
@@ -47,9 +43,37 @@ public class InscripcionBean implements Serializable{
         this.inscripcion = inscripcion;
     }
 
+    public List<Inscripcion> getInscripcionesList() {
+        this.inscripcionesList = this.daoInscripcion.findAll();
+        return inscripcionesList;
+    }
+
+    public void setInscripcionesList(List<Inscripcion> inscripcionesList) {
+        this.inscripcionesList = inscripcionesList;
+    }
+
+    public Alumno getAlumno() {
+        return alumno;
+    }
+
+    public void setAlumno(Alumno alumno) {
+        this.alumno = alumno;
+    }
+
+    public Materia getMateria() {
+        return materia;
+    }
+
+    public void setMateria(Materia materia) {
+        this.materia = materia;
+    }
+
     @PostConstruct
     public void init() {
         this.inscripcion = new Inscripcion();
+        this.inscripcion.setFechaInscripcion(new Date());
+        this.alumno = new Alumno();
+        this.materia = new Materia();
     }
 
     public void refresh() {
@@ -57,6 +81,8 @@ public class InscripcionBean implements Serializable{
     }
 
     public void guardarInscripcion() {
+        this.inscripcion.setAlumno(alumno);
+        this.inscripcion.setMateria(materia);
         if (inscripcion.getId() != null) {
             this.daoInscripcion.edit(inscripcion);
         } else {
@@ -67,12 +93,18 @@ public class InscripcionBean implements Serializable{
     }
 
     public void cargarInscripcion(Inscripcion inscripcion) {
+        this.setAlumno(inscripcion.getAlumno());
+        this.setMateria(inscripcion.getMateria());
         this.inscripcion = inscripcion;
     }
 
     public void eliminarInscripcion(Inscripcion inscripcion) {
         this.daoInscripcion.remove(inscripcion);
         this.refresh();
+    }
+
+    public String irInscripcion() {
+        return "/views/dt_inscripciones/dt_inscripciones.xhtml";
     }
 
 }

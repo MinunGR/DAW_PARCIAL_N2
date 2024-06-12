@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package com.ues.parcial.entity;
 
 import jakarta.persistence.*;
@@ -32,7 +31,7 @@ public class Inscripcion implements Serializable {
     private String ciclo;
 
     @Column(name = "año")
-    private Integer año;
+    private Integer anio;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "fecha_inscripcion")
@@ -71,12 +70,12 @@ public class Inscripcion implements Serializable {
         this.ciclo = ciclo;
     }
 
-    public Integer getAño() {
-        return año;
+    public Integer getAnio() {
+        return anio;
     }
 
-    public void setAño(Integer año) {
-        this.año = año;
+    public void setAnio(Integer anio) {
+        this.anio = anio;
     }
 
     public Date getFechaInscripcion() {
@@ -94,22 +93,26 @@ public class Inscripcion implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
         Inscripcion that = (Inscripcion) obj;
         return Objects.equals(id, that.id);
     }
 
     @Override
     public String toString() {
-        return "Inscripcion{" +
-                "id=" + id +
-                ", alumno=" + alumno +
-                ", materia=" + materia +
-                ", ciclo='" + ciclo + '\'' +
-                ", año=" + año +
-                ", fechaInscripcion=" + fechaInscripcion +
-                '}';
+        return "Inscripcion{"
+                + "id=" + id
+                + ", alumno=" + alumno
+                + ", materia=" + materia
+                + ", ciclo='" + ciclo + '\''
+                + ", año=" + anio
+                + ", fechaInscripcion=" + fechaInscripcion
+                + '}';
     }
 
     // Constructor vacío
@@ -121,7 +124,7 @@ public class Inscripcion implements Serializable {
         this.alumno = alumno;
         this.materia = materia;
         this.ciclo = ciclo;
-        this.año = año;
+        this.anio = año;
         this.fechaInscripcion = fechaInscripcion;
     }
 }

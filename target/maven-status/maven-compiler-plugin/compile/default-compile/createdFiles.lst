@@ -1,11 +1,10 @@
-entities\Materia.class
+com\ues\parcial\entity\Inscripcion.class
 com\ues\parcial\controller\MateriaBean.class
+com\ues\parcial\controller\AlumnoBean.class
 com\ues\parcial\service\AlumnoDataService.class
 com\ues\parcial\controller\InscripcionBean.class
+com\ues\parcial\entity\Alumno.class
 com\ues\parcial\service\MateriaDataService.class
-com\ues\parcial\service\InscripcionDataService.class
-entities\Inscripcion.class
-com\ues\parcial\redirect\Redirect.class
-entities\Alumno.class
-com\ues\parcial\controller\AlumnoBean.class
 com\ues\parcial\service\AbstractService.class
+com\ues\parcial\service\InscripcionDataService.class
+com\ues\parcial\entity\Materia.class

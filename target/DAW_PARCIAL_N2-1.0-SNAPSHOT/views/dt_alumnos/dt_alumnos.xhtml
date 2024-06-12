@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition template="#{root}/index.xhtml">
+        <ui:define name="content">
+            <h:form id='form_list_alumnos' >
+                <p:toolbar>
+                    <p:toolbarGroup align="right">
+                        <p:commandButton value="Crear Alumno" icon="pi pi-plus" 
+                                         oncomplete="PF('dialog_create_edit_alumno').show()"
+                                         styleClass="ui-button-success" style="margin-right: .5rem">
+                        </p:commandButton>
+                    </p:toolbarGroup>
+                </p:toolbar>
+                <p:dataTable  var="lalumno" value="#{cAlumno.alumnosList}" rows="20" id="tabla_alumnos" rowIndexVar="i"
+                              paginator="true" rowsPerPageTemplate="5,10,15,20,30,50,100" scrollHeight="350" scrollable="true"
+                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                              rowHover="true" emptyMessage="No hay estudiantes registrados...">
+                    <f:facet name="paginatorTopRight">
+                        <p:commandButton  icon="pi pi-refresh"
+                                          action="#{cAlumno.refresh()}"
+                                          update="tabla_alumnos"/>
+                    </f:facet>
+                    <f:facet name="paginatorBottomRight">
+                        <p:commandButton  icon="pi pi-refresh" 
+                                          action="#{cAlumno.refresh()}"
+                                          update="tabla_alumnos"/>
+                    </f:facet>
+                    <f:facet name="header">
+                        Listado de estudiantes  registrados
+                    </f:facet>
+                    <p:column headerText="#">
+                        <h:outputText value="#{i+1}"/>
+                    </p:column>
+                    <p:column headerText="Carnet" filterBy="#{lalumno.carnet}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{lalumno.carnet}"/>
+                    </p:column>
+
+                    <p:column headerText="Nombre" filterBy="#{lalumno.nombre}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{lalumno.nombre}"/>
+                    </p:column>
+                    <p:column headerText="Herramientas" exportable="false">
+                        <p:menuButton value="Opciones" style="text-align: center"> 
+                            <p:menuitem  value="Modificar" 
+                                         actionListener="#{cAlumno.cargarAlumno(lalumno)}"
+                                         onclick="PF('globalProgressBarDialog').show()"
+                                         oncomplete="PF('dialog_create_edit_alumno').show();PF('globalProgressBarDialog').hide()"   
+                                         icon="pi pi-pencil" 
+                                         update='form_create_edit_alumno msj'/>
+                            <p:menuitem  value="Eliminar" icon="pi pi-trash"
+                                         onclick="PF('globalProgressBarDialog').show()"
+                                         action="#{cAlumno.eliminarAlumno(lalumno)}"
+                                         oncomplete="PF('globalProgressBarDialog').hide()"
+                                         update='tabla_alumnos :msj'>
+                                <p:confirm header="Confirmación" 
+                                           message="¿Seguro que deseas eliminar el Registro # #{lalumno.id}?
+                                           Esta acción es irreversible."
+                                           icon="pi pi-exclamation-triangle" />
+                            </p:menuitem>
+                        </p:menuButton>
+                    </p:column>  
+                </p:dataTable>
+            </h:form>
+
+            <h:form id="form_create_edit_alumno">
+                <p:dialog widgetVar="dialog_create_edit_alumno" closable="true" closeOnEscape="true" 
+                          id='dialog_create_edit_alumno' draggable="false" showEffect="slide" hideEffect="slide" height="80%" 
+                          resizable="false" responsive="true" maximizable="false" modal="true" position="center"
+                          footer="Datos requeridos marcados con *" width="40%"
+                          header="Registro de alumnos">
+                    <p:ajax event="close" listener="#{cAlumno.init()}" update="form_create_edit_alumno"/>
+
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="Nombre completo :" for="@next"/>
+                        <p:inputText maxlength="50" 
+                                     placeholder="Nombre completo" 
+                                     required="true" 
+                                     requiredMessage="Nombre es obligatorio"
+                                     value="#{cAlumno.alumno.nombre}" />
+                        <p:outputLabel value="Carnet :" for="@next"/>
+                        <p:inputMask placeholder="Carnet" 
+                                     mask="9999-99"
+                                     required="true" 
+                                     requiredMessage="Carnet es obligatorio"
+                                     value="#{cAlumno.alumno.carnet}"
+                                     id="carnet_est">
+                        </p:inputMask>
+                        <p:separator/>
+                        <p:commandButton value="Guardar" icon="pi pi-save" 
+                                         action="#{cAlumno.guardarAlumno()}"
+                                         update="msj form_list_alumnos"
+                                         onclick="PF('globalProgressBarDialog').show()"
+                                         oncomplete="PF('globalProgressBarDialog').hide();PF('dialog_create_edit_alumno').hide()">
+                            <p:confirm header="Confirmación" 
+                                       message="¿Seguro que desea registrar este Alumno?" 
+                                       icon="pi pi-exclamation-triangle" />
+                        </p:commandButton>
+                    </p:panelGrid>
+                </p:dialog>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

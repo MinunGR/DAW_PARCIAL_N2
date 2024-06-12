@@ -15,11 +15,11 @@ import java.util.List;
 
 /**
  *
- * @author Fernando
+ * @author Carlos
  */
 @Named("cAlumno")
 @ViewScoped
-public class AlumnoBean implements Serializable{
+public class AlumnoBean implements Serializable {
 
     // Acceso a datos
     @EJB(beanName = "AlumnoService")
@@ -31,6 +31,7 @@ public class AlumnoBean implements Serializable{
     private Alumno alumno;
 
     public List<Alumno> getAlumnosList() {
+        this.alumnosList = this.daoAlumno.findAll();
         return alumnosList;
     }
 
@@ -72,6 +73,10 @@ public class AlumnoBean implements Serializable{
     public void eliminarAlumno(Alumno alumno) {
         this.daoAlumno.remove(alumno);
         this.refresh();
+    }
+
+    public String irAlumno() {
+        return "/views/dt_alumnos/dt_alumnos.xhtml";
     }
 
 }

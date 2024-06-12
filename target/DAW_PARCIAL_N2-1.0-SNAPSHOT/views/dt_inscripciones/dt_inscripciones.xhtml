@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="#{root}/index.xhtml">
+        <ui:define name="content">
+            <h:form id='form_list_inscripciones'>
+                <p:toolbar>
+                    <p:toolbarGroup align="right">
+                        <p:commandButton value="Crear Inscripción" icon="pi pi-plus" 
+                                         oncomplete="PF('dialog_create_edit_inscripcion').show()"
+                                         styleClass="ui-button-success" style="margin-right: .5rem">
+                        </p:commandButton>
+                    </p:toolbarGroup>
+                </p:toolbar>
+                <p:dataTable  var="linscrip" value="#{cInscripcion.inscripcionesList}" rows="20" id="tabla_inscripciones" rowIndexVar="i"
+                              paginator="true" rowsPerPageTemplate="5,10,15,20,30,50,100" scrollHeight="350" scrollable="true"
+                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                              rowHover="true" emptyMessage="No hay inscripciones registradas...">
+                    <f:facet name="paginatorTopRight">
+                        <p:commandButton  icon="pi pi-refresh"
+                                          action="#{cInscripcion.refresh()}"
+                                          update="tabla_inscripciones"/>
+                    </f:facet>
+                    <f:facet name="paginatorBottomRight">
+                        <p:commandButton  icon="pi pi-refresh" 
+                                          action="#{cInscripcion.refresh()}"
+                                          update="tabla_inscripciones"/>
+                    </f:facet>
+                    <f:facet name="header">
+                        Listado de inscripciones registradas
+                    </f:facet>
+                    <p:column headerText="#">
+                        <h:outputText value="#{i+1}"/>
+                    </p:column>
+                    <p:column headerText="Carnet" filterBy="#{linscrip.alumno.carnet}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{linscrip.alumno.carnet}"/>
+                    </p:column>
+                    <p:column headerText="Nombre" filterBy="#{linscrip.alumno.nombre}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{linscrip.alumno.nombre}"/>
+                    </p:column>
+                    <p:column headerText="Código de materia"  filterBy="#{linscrip.materia.codigo}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{linscrip.materia.codigo}"/>
+                    </p:column>
+
+                    <p:column headerText="Ciclo"  filterBy="#{linscrip.ciclo}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{linscrip.ciclo}"/>
+                    </p:column>
+                    <p:column headerText="Año"  filterBy="#{linscrip.anio}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{linscrip.anio}"/>
+                    </p:column>
+                    <p:column headerText="Fecha de inscripción"  filterBy="#{linscrip.fechaInscripcion}"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{linscrip.fechaInscripcion}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/> 
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Herramientas" exportable="false">
+                        <p:menuButton value="Opciones" style="text-align: center"> 
+                            <p:menuitem  value="Modificar"  
+                                         action="#{cInscripcion.cargarInscripcion(linscrip)}"
+                                         onclick="PF('globalProgressBarDialog').show()"
+                                         oncomplete="PF('dialog_create_edit_inscripcion').show();PF('globalProgressBarDialog').hide()"   
+                                         icon="pi pi-pencil" 
+                                         update='form_create_edit_inscripcion msj'/>
+                            <p:menuitem  value="Eliminar" icon="pi pi-trash"
+                                         onclick="PF('globalProgressBarDialog').show()"
+                                         action="#{cInscripcion.eliminarInscripcion(linscrip)}"    
+                                         oncomplete="PF('globalProgressBarDialog').hide()"
+                                         update='form_list_inscripciones msj'>
+                                <p:confirm header="Confirmación" 
+                                           message="¿Seguro que deseas eliminar el registro?
+                                           Esta acción es irreversible."
+                                           icon="pi pi-exclamation-triangle" />
+                            </p:menuitem>
+                        </p:menuButton>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+
+            <h:form id="form_create_edit_inscripcion">
+                <p:dialog widgetVar="dialog_create_edit_inscripcion" closable="true" closeOnEscape="true" 
+                          id='dialog_create_edit_inscripcion' draggable="false" showEffect="slide" hideEffect="slide" height="80%" 
+                          resizable="false" responsive="true" maximizable="false" modal="true" position="center"
+                          footer="Datos requeridos marcados con *" width="40%"
+                          header="Inscripción de asignaturas para alumnos">
+                    <p:ajax event="close" listener="#{cInscripcion.init()}" update="form_create_edit_inscripcion"/>
+
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="Alumno :" for="@next"/>
+                        <p:selectOneMenu id="slcAlumno" 
+                                         required="true"
+                                         requiredMessage="Se requiere este campo: 'Alumno'"
+                                         filter="true" filterMatchMode="contains"
+                                         filterPlaceholder="Alumnos" autoWidth="false"
+                                         placeholder="Alumnos" style="width: 100%"
+                                         value="#{cInscripcion.alumno.id}"> 
+                            <f:selectItem value="#{null}" itemLabel="--Seleccione un valor--"
+                                          noSelectionOption="true"/>
+                            <f:selectItems value="#{cAlumno.alumnosList}" var="alm"
+                                           itemLabel="#{alm.carnet}- #{alm.nombre}"
+                                           itemValue="#{alm.id}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Asignaturas :" for="@next"/>
+                        <p:selectOneMenu required="true"
+                                         requiredMessage="Se requiere este campo: 'Asignatura'"
+                                         filter="true" filterMatchMode="contains"
+                                         filterPlaceholder="Asignaturas" autoWidth="false"
+                                         placeholder="Asignaturas" style="width: 100%"
+                                         value="#{cInscripcion.materia.id}"> 
+                            <f:selectItem value="#{null}" itemLabel="--Seleccione un valor--"
+                                          noSelectionOption="true"/>
+                            <f:selectItems value="#{cMateria.materiasList}" var="mat"
+                                           itemLabel="#{mat.codigo}- #{mat.nombre}"
+                                           itemValue="#{mat.id}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Ciclo : " for="@next"/>
+                        <p:spinner  value="#{cInscripcion.inscripcion.ciclo}" 
+                                    placeholder="Ciclo" required="true" 
+                                    decimalPlaces="0" decimalSeparator="." 
+                                    requiredMessage="Ciclo es obligatorio"
+                                    min="0" max="200"/>
+                        <p:outputLabel value="Año" for="@next"/>
+                        <p:inputMask placeholder="Año" 
+                                     mask="9999"
+                                     required="true" 
+                                     requiredMessage="Año es obligatorio"
+                                     value="#{cInscripcion.inscripcion.anio}">
+                        </p:inputMask>
+                        <p:outputLabel value="Inscripción" for="@next"/>
+                        <p:calendar value="#{cInscripcion.inscripcion.fechaInscripcion}" 
+                                    required="true" requiredMessage="Fecha es obligatoria"
+                                    pattern="dd/MM/yyyy" navigator="true" showOn="button"/>
+                        <p:commandButton value="Guardar" icon="pi pi-save" 
+                                         action="#{cInscripcion.guardarInscripcion()}"
+                                         update="msj form_list_inscripciones"
+                                         onclick="PF('globalProgressBarDialog').show()"
+                                         oncomplete="PF('globalProgressBarDialog').hide();PF('dialog_create_edit_inscripcion').hide()">
+                            <p:confirm header="Confirmación" 
+                                       message="¿Seguro que desea registrar esta Inscripción?" 
+                                       icon="pi pi-exclamation-triangle" />
+                        </p:commandButton>
+
+                    </p:panelGrid>
+                </p:dialog>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

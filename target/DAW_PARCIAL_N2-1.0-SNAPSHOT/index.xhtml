@@ -6,20 +6,26 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Registro de estudiantes</title>
+        <link rel="shortcut icon" type="image/x-icon" href="#{resource['img/fatsoyoshi.png']}" />
     </h:head>
     <h:body>
-        <p:outputPanel>
+        <f:view>
+            <p:divider align="center" type="dashed">
+                <b>DAW- Modelo de capas: Crud estudiantes</b>
+            </p:divider>
             <div class="ui-g">
                 <div class="ui-g-2">
                     <h:form>
                         <div class="card">
                             <p:menu>
                                 <p:submenu label="Menú de opciones">
-                                    <p:menuitem value="Alumnos" action="#{cRedirect.setNum('1')}" update="msj table_views"
+                                    <p:menuitem value="Alumnos" action="#{cAlumno.irAlumno}"
                                                 icon="pi pi-save"/>
-                                    <p:menuitem value="Asignaturas" action="#{cRedirect.setNum('2')}" update="msj table_views" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Inscripciones" action="#{cRedirect.setNum('3')}" update="msj table_views" icon="pi pi-times"/>
+                                    <p:menuitem value="Asignaturas" action="#{cMateria.irMateria}" 
+                                                icon="pi pi-refresh"/>
+                                    <p:menuitem value="Inscripciones" action="#{cInscripcion.irInscripcion}" 
+                                                icon="pi pi-times"/>
                                 </p:submenu>
                             </p:menu>
                         </div>
@@ -27,21 +33,29 @@
                 </div>
                 <div class="ui-g-10">
                     <p:panel id="table_views">
-                        <p:panel header="Control de estudiantes" footer="* Resolución parcial N2"
-                                 rendered="#{cRedirect.num == 0}">
-                            <p class="m-0">
-                                Para iniciar selecciona alguna de las opciones del menú lateral.
-                            </p>
-                        </p:panel>
-                        <ui:include src="#{root}/WEB-INF/xhtml/components/dt_main.xhtml"/>
+                        <div class="content">
+                            <ui:insert id="content" name="content">
+                                <p:panel header="Control de estudiantes" footer="* Resolución parcial N2">
+                                    <p class="m-0">
+                                        En el menú lateral selecciona una de las opciones disponibles para ver
+                                        su respectivo CRUD
+                                        <br/>
+                                        Integrantes:
+                                        <br/>
+                                        BA22025- Fernando José Barraza Álvarez <br/>
+                                        OA21013- Carlos Guillermo Ortiz Abarca <br/>
+                                        MV12013- David Salomón Martínez Valladares <br/>
+
+                                    </p>
+                                </p:panel>
+                            </ui:insert>
+                        </div>
                     </p:panel>
                 </div>
             </div>
-        </p:outputPanel>
-
-
+        </f:view>
 
         <!--Componentes-->
-        <ui:include src="#{root}/WEB-INF/xhtml/components/main.xhtml"/>
+        <ui:include src="#{root}/views/components/main.xhtml"/>
     </h:body>
 </html>

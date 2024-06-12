@@ -15,7 +15,6 @@ public class Alumno implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "alumno_id_seq")
     @SequenceGenerator(name = "alumno_id_seq", sequenceName = "alumno_id_seq", allocationSize = 1)
-
     @Column(name = "id")
     private Integer id;
 
