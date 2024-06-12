@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition>
+        <h:form id='form_list_reg' rendered="#{cRedirect.num == 1}">
+            <p:dataTable  var="lreg" value="#{cRedirect.l}" rows="20" id="tabla_list" rowIndexVar="i"
+                          paginator="true" rowsPerPageTemplate="5,10,15,20,30,50,100" scrollHeight="350" scrollable="true"
+                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                          currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                          rowHover="true" emptyMessage="No hay estudiantes registrados...">
+                <f:facet name="paginatorTopRight">
+                    <p:commandButton icon="pi pi-plus"  
+                                     update="tabla_list"/>
+                </f:facet>
+                <f:facet name="paginatorBottomRight">
+                    <p:commandButton  icon="pi pi-refresh" 
+                                      update="tabla_list"/>
+                </f:facet>
+                <f:facet name="header">
+                    Listado de estudiantes  registrados
+                </f:facet>
+                <p:column headerText="#">
+                    <h:outputText value="#{i+1}"/>
+                </p:column>
+                <p:column headerText="Columna 2" >
+                    <h:outputText value="REG"/>
+                </p:column>
+
+                <p:column headerText="Columna 3" >
+                </p:column>
+                <p:column headerText="Columna 4">
+
+                </p:column>
+                <p:column headerText="Creación">
+                    <h:outputText value="">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Herramientas" exportable="false">
+                    <p:menuButton value="Opciones" style="text-align: center"> 
+                        <p:menuitem value="Ver Registro" icon="pi pi-search" 
+                                    onclick="PF('globalProgressBarDialog').show()"
+                                    oncomplete="PF('dialog_viewReg').show();PF('globalProgressBarDialog').hide()"
+
+                                    update=":form_view_reg :msj"/>
+                        <p:menuitem  value="Modificar"  
+                                     onclick="PF('globalProgressBarDialog').show()"
+                                     oncomplete="PF('dialog_editReg').show();PF('globalProgressBarDialog').hide()"   
+                                     icon="pi pi-pencil" 
+                                     update=':form_edit_registro :msj'/>
+                        <p:menuitem  value="Eliminar" icon="pi pi-trash"
+                                     onclick="PF('globalProgressBarDialog').show()"
+
+                                     oncomplete="PF('globalProgressBarDialog').hide()"
+                                     update='table_clientes :msj'>
+                            <p:confirm header="Confirmación" 
+                                       message="¿Seguro que deseas eliminar el Registro #?
+                                       Esta acción es irreversible."
+                                       icon="pi pi-exclamation-triangle" />
+                        </p:menuitem>
+                    </p:menuButton>
+                </p:column>  
+            </p:dataTable>
+        </h:form>
+    </ui:composition>
+</html>

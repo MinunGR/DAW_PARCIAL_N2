@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <p:outputPanel>
+            <div class="ui-g">
+                <div class="ui-g-2">
+                    <h:form>
+                        <div class="card">
+                            <p:menu>
+                                <p:submenu label="Menú de opciones">
+                                    <p:menuitem value="Alumnos" action="#{cRedirect.setNum('1')}" update="msj table_views"
+                                                icon="pi pi-save"/>
+                                    <p:menuitem value="Asignaturas" action="#{cRedirect.setNum('2')}" update="msj table_views" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Inscripciones" action="#{cRedirect.setNum('3')}" update="msj table_views" icon="pi pi-times"/>
+                                </p:submenu>
+                            </p:menu>
+                        </div>
+                    </h:form>
+                </div>
+                <div class="ui-g-10">
+                    <p:panel id="table_views">
+                        <p:panel header="Control de estudiantes" footer="* Resolución parcial N2"
+                                 rendered="#{cRedirect.num == 0}">
+                            <p class="m-0">
+                                Para iniciar selecciona alguna de las opciones del menú lateral.
+                            </p>
+                        </p:panel>
+                        <ui:include src="#{root}/WEB-INF/xhtml/components/dt_main.xhtml"/>
+                    </p:panel>
+                </div>
+            </div>
+        </p:outputPanel>
+
+
+
+        <!--Componentes-->
+        <ui:include src="#{root}/WEB-INF/xhtml/components/main.xhtml"/>
+    </h:body>
+</html>
