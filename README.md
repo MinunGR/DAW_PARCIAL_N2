@@ -23,18 +23,16 @@ El proyecto utiliza una base de datos en la nube en CoackroachDB. Para configura
    - En el archivo `persistence.xml` del proyecto, asegúrese de configurar el datasource con las credenciales de la base de datos en la nube.
 
    ```xml
-   <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="3.0" xmlns="https://jakarta.ee/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
-    <!-- Define Persistence Unit -->
-    <persistence-unit name="db_parcial" transaction-type="JTA">
-        
-        <jta-data-source>parcial_db</jta-data-source>
-        <shared-cache-mode>NONE</shared-cache-mode>
-        <properties>
-        
-           
-        </properties>
-    </persistence-unit>
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="3.0"
+	xmlns="https://jakarta.ee/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
+	<!-- Define Persistence Unit -->
+	<persistence-unit name="db_parcial" transaction-type="JTA">
+		<jta-data-source>parcial_db</jta-data-source>
+		<shared-cache-mode>NONE</shared-cache-mode>
+		<properties></properties>
+	</persistence-unit>
 </persistence>
 ```
 
