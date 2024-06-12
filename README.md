@@ -12,10 +12,10 @@ El proyecto utiliza una base de datos en la nube en CoackroachDB. Para configura
 ### Credenciales de la Base de Datos
 
 - **Tipo de Base de Datos:** PostgreSQL 
-- **Hostname:** `hostname.de.la.base.de.datos.com`
-- **Database:** `nombre_de_base_de_datos`
-- **Username:** `nombre_de_usuario`
-- **Password:** `contraseña`
+- **Hostname:** `parcial-test-cluster-15007.7tt.aws-us-east-1.cockroachlabs.cloud`
+- **Database:** `db_parcial`
+- **Username:** `fernando`
+- **Password:** `XEUkzO8WEKnLbd3oSleD2A`
 
 ### Configuración para CockroachDB
 
