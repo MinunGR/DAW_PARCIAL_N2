@@ -4,7 +4,7 @@
  */
 package com.ues.parcial.service;
 
-import entities.Inscripcion;
+import com.ues.parcial.entity.Inscripcion;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

@@ -4,7 +4,7 @@
  */
 package com.ues.parcial.service;
 
-import entities.Alumno;
+import com.ues.parcial.entity.Alumno;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

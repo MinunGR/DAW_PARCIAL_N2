@@ -5,7 +5,7 @@
 package com.ues.parcial.controller;
 
 import com.ues.parcial.service.InscripcionDataService;
-import entities.Inscripcion;
+import com.ues.parcial.entity.Inscripcion;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.faces.view.ViewScoped;
