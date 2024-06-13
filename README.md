@@ -16,6 +16,7 @@ El proyecto utiliza una base de datos en la nube en CoackroachDB. Para configura
 - **Database:** `db_parcial`
 - **Username:** `fernando`
 - **Password:** `XEUkzO8WEKnLbd3oSleD2A`
+- **Puerto:** `26257`
 
 ### Configuración para CockroachDB
 
